@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://8y27pe2q7o3m"]
+
+[ext_resource type="Script" uid="uid://dvt30g0svtwr7" path="res://screenshots/runtime_test_sub_scene.gd" id="1_vqa01"]
+
+[node name="runtime_test_sub_scene" type="Node2D" unique_id=170308889]
+script = ExtResource("1_vqa01")
+
+[node name="SubSceneMarker" type="Label" parent="." unique_id=184124445]
+text = "SubScene"

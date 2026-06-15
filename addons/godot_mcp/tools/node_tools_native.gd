@@ -49,6 +49,12 @@ func _register_create_node(server_core: RefCounted) -> void:
 				"node_name": {
 					"type": "string",
 					"description": "Name for the new node"
+				},
+				"on_name_conflict": {
+					"type": "string",
+					"description": "Behavior when node_name already exists in parent: 'error' (return error), 'rename' (auto-rename with unique suffix), 'auto' (allow Godot to assign @NodeType@XXXXX name). Default: 'error'.",
+					"default": "error",
+					"enum": ["error", "rename", "auto"]
 				}
 			},
 			"required": ["parent_path", "node_type", "node_name"]
@@ -89,27 +95,44 @@ func _tool_create_node(params: Dictionary) -> Dictionary:
 	var parent_path: String = params.get("parent_path", "")
 	var node_type: String = params.get("node_type", "Node")
 	var node_name: String = params.get("node_name", "NewNode")
-	
+	var on_name_conflict: String = params.get("on_name_conflict", "error")
+
 	var editor_interface: EditorInterface = _get_editor_interface()
 	if not editor_interface:
 		return {"error": "Editor interface not available"}
-	
+
 	var parent: Node = _resolve_node_path(parent_path)
 	if not parent:
 		if parent_path == "/root" or parent_path.is_empty():
 			parent = _get_user_scene_root()
-	
+
 	if not parent:
 		return {"error": "Parent node not found: " + parent_path}
-	
+
 	if not ClassDB.class_exists(node_type):
 		return {"error": "Invalid node type: " + node_type}
-	
+
+	# Handle name conflicts
+	if parent.has_node(node_name):
+		match on_name_conflict:
+			"error":
+				return {"error": "A node named '" + node_name + "' already exists under " + parent_path + ". Use a different name or set on_name_conflict='rename'."}
+			"rename":
+				var counter: int = 1
+				var new_name: String = node_name + "_" + str(counter)
+				while parent.has_node(new_name):
+					counter += 1
+					new_name = node_name + "_" + str(counter)
+				node_name = new_name
+			"auto":
+				# Allow Godot to auto-rename with @ suffix (existing behavior)
+				pass
+
 	var node: Node = ClassDB.instantiate(node_type)
 	node.name = node_name
-	
+
 	var scene_root: Node = _get_user_scene_root()
-	
+
 	# Traverse parent chain to find correct owner for nested/instanced scenes.
 	# If parent is inside an instanced sub-scene, use parent.owner instead of scene_root.
 	var correct_owner: Node = scene_root

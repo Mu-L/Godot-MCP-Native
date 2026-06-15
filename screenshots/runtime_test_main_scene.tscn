@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://l0m566xsrl81"]
+
+[ext_resource type="Script" uid="uid://03w2o1nhppsw" path="res://screenshots/runtime_test_main_scene.gd" id="1_c0pej"]
+
+[node name="runtime_test_main_scene" type="Node2D" unique_id=30362977]
+script = ExtResource("1_c0pej")
+
+[node name="MainSceneLabel" type="Label" parent="." unique_id=1669780742]
+text = "MainScene"
+
+[node name="SwitchButton" type="Button" parent="." unique_id=1365440589]
+text = "Switch Scene"

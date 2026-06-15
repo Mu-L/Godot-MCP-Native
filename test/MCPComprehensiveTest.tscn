@@ -1,0 +1,99 @@
+[gd_scene format=3 uid="uid://b8vi6rohtia2f"]
+
+[ext_resource type="Script" uid="uid://bsg12huaf1u5i" path="res://addons/godot_mcp/runtime/mcp_runtime_probe.gd" id="1_jdhbt"]
+
+[sub_resource type="Animation" id="Animation_onvs5"]
+resource_name = "test_anim"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_jdhbt"]
+resource_name = "test_lib"
+_data = {
+&"test_anim": SubResource("Animation_onvs5")
+}
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_jdhbt"]
+animation = &"test_lib/test_anim"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_evg38"]
+animation = &"test_lib/test_anim"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_sxwqf"]
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_xbqlm"]
+states/idle/node = SubResource("AnimationNodeAnimation_jdhbt")
+states/idle/position = Vector2(0, 0)
+states/walk/node = SubResource("AnimationNodeAnimation_evg38")
+states/walk/position = Vector2(0, 0)
+transitions = ["idle", "walk", SubResource("AnimationNodeStateMachineTransition_sxwqf")]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_evg38"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_sxwqf"]
+
+[sub_resource type="Shader" id="Shader_xbqlm"]
+code = "shader_type spatial;
+uniform vec4 albedo : source_color = vec4(1.0, 1.0, 0.0, 1.0);
+void fragment() {
+    ALBEDO = albedo.rgb;
+}"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6ho3h"]
+render_priority = 0
+shader = SubResource("Shader_xbqlm")
+shader_parameter/albedo = Color(1, 1, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_pvan2"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_jdhbt"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_evg38"]
+texture = SubResource("PlaceholderTexture2D_jdhbt")
+
+[sub_resource type="TileSet" id="TileSet_sxwqf"]
+sources/0 = SubResource("TileSetAtlasSource_evg38")
+
+[node name="MCPComprehensiveTest" type="Node3D" unique_id=1992440934]
+
+[node name="AnimPlayer" type="AnimationPlayer" parent="." unique_id=239238952]
+libraries/test_lib = SubResource("AnimationLibrary_jdhbt")
+
+[node name="AnimTree" type="AnimationTree" parent="." unique_id=1553121635]
+tree_root = SubResource("AnimationNodeStateMachine_xbqlm")
+anim_player = NodePath("/root/@EditorNode@18065/@Panel@14/@VBoxContainer@15/DockHSplitMain/@VBoxContainer@28/DockVSplitCenter/@VSplitContainer@70/@VBoxContainer@71/@EditorMainScreen@125/MainScreen/@CanvasItemEditor@9318/@VSplitContainer@9101/@HSplitContainer@9103/@HSplitContainer@9105/@Control@9106/@SubViewportContainer@9107/@SubViewport@9108/MCPComprehensiveTest/AnimPlayer")
+
+[node name="ControlNode" type="Control" parent="." unique_id=530117137]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 100.0
+offset_top = 100.0
+offset_right = 300.0
+offset_bottom = 300.0
+
+[node name="MeshInstance" type="MeshInstance3D" parent="." unique_id=1307431672]
+material_override = SubResource("StandardMaterial3D_evg38")
+mesh = SubResource("BoxMesh_sxwqf")
+
+[node name="ShaderMesh" type="MeshInstance3D" parent="." unique_id=1886591203]
+material_override = SubResource("ShaderMaterial_6ho3h")
+mesh = SubResource("BoxMesh_pvan2")
+
+[node name="MCPRuntimeProbe" type="Node" parent="." unique_id=1120057998]
+script = ExtResource("1_jdhbt")
+
+[node name="OldTileMap" type="TileMap" parent="." unique_id=753207558]
+tile_set = SubResource("TileSet_sxwqf")
+format = 2
+layer_0/tile_data = PackedInt32Array(0, 0, 0, 1, 0, 0)

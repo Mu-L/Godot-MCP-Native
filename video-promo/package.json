@@ -1,0 +1,20 @@
+{
+  "name": "godot-mcp-native-promo",
+  "version": "1.0.0",
+  "description": "Godot MCP Native 产品介绍视频",
+  "scripts": {
+    "start": "remotion studio",
+    "build": "remotion render VideoPromo out/godot-mcp-native-promo.mp4"
+  },
+  "dependencies": {
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "remotion": "4.0.461"
+  },
+  "devDependencies": {
+    "@remotion/cli": "4.0.461",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "typescript": "^5.0.0"
+  }
+}

@@ -54,7 +54,7 @@ func setup(group_name: String, items: Array, translation_manager = null) -> void
 			description = translated_desc
 
 		var tool_item: MCPToolItem = MCPToolItem.new()
-		tool_item.setup(tool_name, description, enabled, category, _group_name)
+		tool_item.setup(tool_name, description, enabled, category, _group_name, _translation_manager)
 		tool_item.tool_toggled.connect(_on_tool_item_toggled)
 		tool_container.add_child(tool_item)
 

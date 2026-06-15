@@ -1,0 +1,10 @@
+{
+  "text": {
+    "key": "enc:EnYVqe2FhEXQiouz+pE4IzeuCLenf01O4/L88KVUEQejN1TctFdZP+EiLqcmD0wXkmsfJcT1cE9+kXua6LGn35Q=",
+    "url": "https://token.sensenova.cn/compatible-mode/v1/chat/completions",
+    "model": "sensenova-6.7-flash-lite",
+    "provider": "custom",
+    "extraParams": {}
+  },
+  "updatedAt": 1778466863661
+}

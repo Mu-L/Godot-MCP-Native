@@ -24,6 +24,10 @@ config/icon="res://icon.svg"
 
 MCPRuntimeProbe="*res://addons/godot_mcp/runtime/mcp_runtime_probe.gd"
 
+[dotnet]
+
+project/assembly_name="Godot MCP Native"
+
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/godot_mcp/plugin.cfg")
